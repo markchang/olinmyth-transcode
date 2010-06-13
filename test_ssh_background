@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "sleeping..."
+sleep 5
+echo ${1} >> /tmp/test.log
+echo "done"
+

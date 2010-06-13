@@ -1,0 +1,21 @@
+#!/bin/bash
+# /Users/mythtv/mythtv/scripts/myth_1
+#   %DIR% %FILE% %TITLE% %SUBTITLE% %STARTTIMEISO%
+
+TARGET_DIR=/Users/mythtv/torrent/files
+TORRENT_DIR=/Users/mythtv/torrent/watch
+TMP_DIR=/Users/mythtv/torrent/tmp
+WEB_DIR=/Users/mythtv/torrent/web
+LOG_FILE=/Users/mythtv/torrent/log/myth.log
+
+DIR=${1}
+FILE=${2}
+TITLE=${3}
+SUBTITLE=${4}
+STARTTIMEISO=${5}
+
+echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: " >> $LOG_FILE
+echo ${FILE} >> $LOG_FILE
+/opt/local/bin/createtorrent -a http://tv.olin.edu -p 6969 -l 2097152 "${TARGET_DIR}/${FILE}" "${WEB_DIR}/${FILE}.torrent"
+/usr/local/bin/rtorrent_fast_resume.pl ${TARGET_DIR} < "${WEB_DIR}/${FILE}.torrent" > "${TMP_DIR}/${FILE}.torrent"
+mv "${TMP_DIR}/${FILE}.torrent" "${TORRENT_DIR}/"
