@@ -32,12 +32,15 @@ DATE_STRING=`date --date "${FIXEDISO}" "+%Y-%m-%d, %I-%M %p"`
 PRETTY_NAME="${TITLE} - ${DATE_STRING} - ${SUBTITLE}.${FILE##*.}"
 
 # --- copy to tv.olin.edu
-echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: " >> $LOG_FILE
+echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: xfer start: " >> $LOG_FILE
 echo ${FILE} to ${PRETTY_NAME} >> $LOG_FILE
 cp "${DIR}/${FILE}" "${RECORDINGS_DIR}/${PRETTY_NAME}"
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: xfer finish " >> $LOG_FILE
 
 # --- now execute the job on tv.olin.edu
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: ssh kickoff start" >> $LOG_FILE
 ssh -T tv.olin.edu <<EOI
 /mnt/tv/scripts/1_seed "${PRETTY_NAME}" < /dev/null > /mnt/tv/log/ssh.log 2>&1 &
 EOI
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: ssh kickoff finish" >> $LOG_FILE
 
