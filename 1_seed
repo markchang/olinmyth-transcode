@@ -1,6 +1,14 @@
 #!/bin/bash
-# /Users/mythtv/mythtv/scripts/myth_1
-#   %DIR% %FILE% %TITLE% %SUBTITLE% %STARTTIMEISO%
+# 1_seed
+# client-side script to be executed by remote ssh
+# to do post-processing
+#
+# 1. create torrent
+# 2. seed torrent
+# 3. (fixme) transcode to smaller format
+#
+# parameters
+#   $1 = RECORDING FILENAME
 
 TARGET_DIR=/Users/mythtv/torrent/files
 TORRENT_DIR=/Users/mythtv/torrent/watch
