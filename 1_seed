@@ -20,6 +20,6 @@ FILE=${1}
 
 echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: " >> $LOG_FILE
 echo ${FILE} >> $LOG_FILE
-buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 "${TARGET_DIR}/${FILE}" "${WEB_DIR}/${FILE}.torrent"
-/usr/local/bin/rtorrent_fast_resume.pl ${TARGET_DIR} < "${WEB_DIR}/${FILE}.torrent" > "${TMP_DIR}/${FILE}.torrent"
-mv "${TMP_DIR}/${FILE}.torrent" "${TORRENT_DIR}/"
+buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 "${TARGET_DIR}/${FILE}" "${TMP_DIR}/${FILE}.torrent"
+/usr/local/bin/rtorrent_fast_resume.pl ${TARGET_DIR} < "${TMP_DIR}/${FILE}.torrent" > "${TORRENT_DIR}/${FILE}.torrent"
+rm "${TMP_DIR}/${FILE}.torrent"
