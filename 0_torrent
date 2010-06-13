@@ -20,8 +20,15 @@ STARTTIMEISO=${5}
 
 echo $DIR $FILE $TITLE $SUBTITLE $STARTTIMEISO >> /tmp/copy.log
 
+# --- fix subtitle
+if [ -z "${SUBTITLE}" ]
+then
+  SUBTITLE="None"
+fi
+
 # --- create filename
-DATE_STRING=`date --date "${STARTTIMEISO}" "+%Y-%m-%d, %I-%M %p"`
+FIXEDISO=`echo "${STARTTIMEISO}" | sed -e 's/T/ /'`
+DATE_STRING=`date --date "${FIXEDISO}" "+%Y-%m-%d, %I-%M %p"`
 PRETTY_NAME="${TITLE} - ${DATE_STRING} - ${SUBTITLE}.${FILE##*.}"
 
 # --- copy to tv.olin.edu
