@@ -1,0 +1,31 @@
+#!/bin/bash
+# 1_copy
+#   %DIR% %FILE% %TITLE% %SUBTITLE% %STARTTIMEISO%
+# test with:
+# /0_torrent /var/lib/mythtv/recordings 1051_20100611200000.mpg "2010 FIFA World Cup Kick- Off Celebration Concert" "No Subtitle" "2010-01-01 11:59:00"
+
+RECORDINGS_DIR=/mnt/tv/recordings
+LOG_FILE=/home/mythtv/log/myth.log
+
+DIR=${1}
+FILE=${2}
+TITLE=${3}
+SUBTITLE=${4}
+STARTTIMEISO=${5}
+
+echo $DIR $FILE $TITLE $SUBTITLE $STARTTIMEISO >> /tmp/copy.log
+
+# --- create filename
+DATE_STRING=`date --date "${STARTTIMEISO}" "+%Y-%m-%d, %I-%M %p"`
+PRETTY_NAME="${TITLE} - ${DATE_STRING} - ${SUBTITLE}.${FILE##*.}"
+
+# --- copy to tv.olin.edu
+echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: " >> $LOG_FILE
+echo ${FILE} to ${PRETTY_NAME} >> $LOG_FILE
+echo cp "${DIR}/${FILE}" "${RECORDINGS_DIR}/${PRETTY_NAME}"
+
+# --- now execute the job on tv.olin.edu
+ssh -T tv.olin.edu <<EOI
+/mnt/tv/scripts/test "${PRETTY_NAME}" < /dev/null > /tmp/ssh.log 2>&1 &
+EOI
+
