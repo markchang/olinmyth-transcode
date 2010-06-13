@@ -27,10 +27,10 @@ PRETTY_NAME="${TITLE} - ${DATE_STRING} - ${SUBTITLE}.${FILE##*.}"
 # --- copy to tv.olin.edu
 echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: " >> $LOG_FILE
 echo ${FILE} to ${PRETTY_NAME} >> $LOG_FILE
-echo cp "${DIR}/${FILE}" "${RECORDINGS_DIR}/${PRETTY_NAME}"
+cp "${DIR}/${FILE}" "${RECORDINGS_DIR}/${PRETTY_NAME}"
 
 # --- now execute the job on tv.olin.edu
 ssh -T tv.olin.edu <<EOI
-/mnt/tv/scripts/test "${PRETTY_NAME}" < /dev/null > /tmp/ssh.log 2>&1 &
+/mnt/tv/scripts/1_seed "${PRETTY_NAME}" < /dev/null > /mnt/tv/log/ssh.log 2>&1 &
 EOI
 
