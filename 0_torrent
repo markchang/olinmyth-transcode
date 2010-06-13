@@ -1,6 +1,11 @@
 #!/bin/bash
-# 1_copy
+# 0_torrent
+# server-side script to copy a single recording to an nfs-mount point
+# for further processing on a different host
+#
+# parameters passed in
 #   %DIR% %FILE% %TITLE% %SUBTITLE% %STARTTIMEISO%
+#
 # test with:
 # /0_torrent /var/lib/mythtv/recordings 1051_20100611200000.mpg "2010 FIFA World Cup Kick- Off Celebration Concert" "No Subtitle" "2010-01-01 11:59:00"
 
