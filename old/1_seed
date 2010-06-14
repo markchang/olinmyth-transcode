@@ -1,5 +1,6 @@
 #!/bin/bash
 # 1_seed
+# DEPRECATED
 # client-side script to be executed by remote ssh
 # to do post-processing
 #
@@ -9,6 +10,8 @@
 #
 # parameters
 #   $1 = RECORDING FILENAME
+
+exit 0
 
 TARGET_DIR=/mnt/tv/recordings
 TORRENT_DIR=/mnt/tv/torrents

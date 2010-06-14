@@ -1,5 +1,6 @@
 #!/bin/bash
 # 0_torrent
+# DEPRECATED
 # server-side script to copy a single recording to an nfs-mount point
 # for further processing on a different host
 #
@@ -8,6 +9,8 @@
 #
 # test with:
 # /0_torrent /var/lib/mythtv/recordings 1051_20100611200000.mpg "2010 FIFA World Cup Kick- Off Celebration Concert" "No Subtitle" "2010-01-01 11:59:00"
+
+exit 0
 
 RECORDINGS_DIR=/mnt/tv/recordings
 LOG_FILE=/home/mythtv/log/myth.log
@@ -23,7 +26,7 @@ echo $DIR $FILE $TITLE $SUBTITLE $STARTTIMEISO >> /tmp/copy.log
 # --- fix subtitle
 if [ -z "${SUBTITLE}" ]
 then
-  SUBTITLE="None"
+  SUBTITLE="Untitled"
 fi
 
 # --- create filename

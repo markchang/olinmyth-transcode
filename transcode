@@ -1,0 +1,18 @@
+#!/bin/bash
+# transcode
+# transcodes file
+#
+# parameter: FILENAME
+###
+
+FILE=${1}
+LOG_FILE=/mnt/tv/log/transcode.log
+RECORDINGS_DIR=/mnt/tv/recordings
+SHARED_DIR=/var/lib/mythtv/recordings_pretty
+
+# --- start transcode
+echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: transcoding ${FILE} " >> $LOG_FILE
+
+
+# --- finished
+echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: finished " >> $LOG_FILE
