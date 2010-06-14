@@ -35,7 +35,6 @@ echo -n "[`date "+%Y-%m-%Oe %H:%M:%S"`]: linking " >> $LOG_FILE
 echo ${FILE} to ${PRETTY_NAME} >> $LOG_FILE
 ln -s "${DIR}/${FILE}" "${TARGET_DIR}/${PRETTY_NAME}"
 
-
 # --- create torrent and start seed
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: building torrent" >> $LOG_FILE
 buildtorrent -a http://mythtv.olin.edu:6969/announce -l 2097152 -q "${TARGET_DIR}/${PRETTY_NAME}" "${TMP_DIR}/${PRETTY_NAME}.torrent"
