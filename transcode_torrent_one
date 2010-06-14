@@ -1,0 +1,30 @@
+#!/bin/bash
+# transcode_torrent_one
+# transcodes a file from the command line and seeds the torrent
+# really not meant to be batched, as it is verbose output
+#
+# parameter: DIRNAME FILENAME
+###
+
+DIR=${1}
+FILE=${2}
+NEWFILE=${FILE%.mpg}.mp4
+LOG_FILE=/mnt/tv/log/transcode.log
+TRANSCODE_DIR=/mnt/tv/transcoded
+TORRENT_DIR=/mnt/tv/torrents
+TMP_DIR=/mnt/tv/tmp
+
+# --- transcode
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: transcoding ${FILE} " >> $LOG_FILE
+
+HandBrakeCLI -i "${DIR}/${FILE}" -o "${TRANSCODE_DIR}/${NEWFILE}" -e x264  -q 20.0 -a 1 -E faac -B 160 -6 dpl2 -R 48 -D 0.0 -f mp4 -m -x ref=2:bframes=2:subme=6:mixed-refs=0:weightb=0:8x8dct=0:trellis=0 -Y 720
+
+# --- build torrent and seed
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: buidling torrent " >> $LOG_FILE
+
+buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}/${NEWFILE}" "${TMP_DIR}/${NEWFILE}.torrent"
+/usr/local/bin/rtorrent_fast_resume.pl ${TRANSCODE_DIR} < "${TMP_DIR}/${NEWFILE}.torrent" > "${TORRENT_DIR}/${NEWFILE}.torrent"
+rm "${TMP_DIR}/${NEWFILE}.torrent"
+
+# --- finished
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: finished " >> $LOG_FILE
