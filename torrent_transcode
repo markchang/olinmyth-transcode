@@ -44,9 +44,3 @@ rm "${TMP_DIR}/${PRETTY_NAME}.torrent"
 # --- start transcode
 # link into shared directory tree so transcode slaves can get to it
 ln -s "${DIR}/${FILE}" "${SHARED_DIR}/${PRETTY_NAME}"
-echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: kickoff transcode" >> $LOG_FILE
-ssh -T tv.olin.edu <<EOI
-/mnt/tv/scripts/transcode "${PRETTY_NAME}" < /dev/null > /mnt/tv/log/ssh.log 2>&1 &
-EOI
-echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: kickoff done" >> $LOG_FILE
-
