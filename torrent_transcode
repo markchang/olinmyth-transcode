@@ -10,7 +10,8 @@
 LOG_FILE=/home/mythtv/log/myth.log
 TARGET_DIR=/home/mythtv/recordings
 SHARED_DIR=/var/lib/mythtv/recordings_pretty
-TORRENT_DIR=/home/mythtv/torrents
+RTORRENT_DIR=/home/mythtv/torrents
+WEB_TORRENT_DIR=/home/mythtv/torrents
 TMP_DIR=/home/mythtv/tmp
 
 DIR=${1}
@@ -37,8 +38,8 @@ ln -s "${DIR}/${FILE}" "${TARGET_DIR}/${PRETTY_NAME}"
 
 # --- create torrent and start seed
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: building torrent" >> $LOG_FILE
-buildtorrent -a http://mythtv.olin.edu:6969/announce -l 2097152 -q "${TARGET_DIR}/${PRETTY_NAME}" "${TMP_DIR}/${PRETTY_NAME}.torrent"
-/usr/local/bin/rtorrent_fast_resume.pl ${TARGET_DIR} < "${TMP_DIR}/${PRETTY_NAME}.torrent" > "${TORRENT_DIR}/${PRETTY_NAME}.torrent"
+buildtorrent -a http://mythtv.olin.edu:6969/announce -l 2097152 -q "${TARGET_DIR}/${PRETTY_NAME}" "${WEB_TORRENT_DIR}/${PRETTY_NAME}.torrent"
+/usr/local/bin/rtorrent_fast_resume.pl ${TARGET_DIR} < "${WEB_TORRENT_DIR}/${PRETTY_NAME}.torrent" > "${RTORRENT_DIR}/${PRETTY_NAME}.torrent"
 rm "${TMP_DIR}/${PRETTY_NAME}.torrent"
 
 # --- start transcode
