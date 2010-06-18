@@ -1,6 +1,7 @@
 #!/bin/bash
-# transcode_torrent_one
-# transcodes a file from the command line and seeds the torrent
+# transcode
+# transcodes the specified file
+# called by the python daemon
 #
 # parameter: FILENAME
 ###
@@ -10,7 +11,8 @@ NEWFILE=${FILE%.mpg}.mp4
 LOG_FILE=/mnt/tv/log/transcode.log
 SHARED_DIR=/var/lib/mythtv/recordings_pretty
 TRANSCODE_DIR=/mnt/tv/transcoded
-TORRENT_DIR=/mnt/tv/torrents
+WEB_TORRENT_DIR=/mnt/tv/torrents
+TORRENT_DIR=/mnt/tv/rtorrent
 TMP_DIR=/mnt/tv/tmp
 
 # --- transcode
@@ -21,9 +23,8 @@ HandBrakeCLI -i "${SHARED_DIR}/${FILE}" -o "${TRANSCODE_DIR}/${NEWFILE}" -e x264
 # --- build torrent and seed
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: building torrent " >> $LOG_FILE
 
-buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}/${NEWFILE}" "${TMP_DIR}/${NEWFILE}.torrent"
-/usr/local/bin/rtorrent_fast_resume.pl ${TRANSCODE_DIR} < "${TMP_DIR}/${NEWFILE}.torrent" > "${TORRENT_DIR}/${NEWFILE}.torrent"
-rm "${TMP_DIR}/${NEWFILE}.torrent"
+buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}/${NEWFILE}" "${WEB_TORRET_DIR}/${NEWFILE}.torrent"
+/usr/local/bin/rtorrent_fast_resume.pl ${TRANSCODE_DIR} < "${WEB_TORRENT_DIR}/${NEWFILE}.torrent" > "${RTORRENT_DIR}/${NEWFILE}.torrent"
 
 # --- finished
 rm "${SHARED_DIR}/${FILE}"
