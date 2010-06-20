@@ -23,7 +23,7 @@ HandBrakeCLI -i "${SHARED_DIR}/${FILE}" -o "${TRANSCODE_DIR}/${NEWFILE}" -e x264
 # --- build torrent and seed
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: building torrent " >> $LOG_FILE
 
-buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}/${NEWFILE}" "${WEB_TORRET_DIR}/${NEWFILE}.torrent"
+buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}/${NEWFILE}" "${WEB_TORRENT_DIR}/${NEWFILE}.torrent"
 /usr/local/bin/rtorrent_fast_resume.pl ${TRANSCODE_DIR} < "${WEB_TORRENT_DIR}/${NEWFILE}.torrent" > "${RTORRENT_DIR}/${NEWFILE}.torrent"
 
 # --- finished

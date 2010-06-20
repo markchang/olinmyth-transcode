@@ -6,10 +6,10 @@
 #   DIR
 ###
 
-LOG_FILE=/home/mythtv/log/myth.log
-RTORRENT_DIR=/home/mythtv/rtorrent
-WEB_TORRENT_DIR=/home/mythtv/torrents
-TMP_DIR=/home/mythtv/tmp
+LOG_FILE=/mnt/tv/log/myth.log
+RTORRENT_DIR=/mnt/tv/rtorrent
+WEB_TORRENT_DIR=/mnt/tv/torrents
+TMP_DIR=/mnt/tv/tmp
 
 DIR=${1}
 
