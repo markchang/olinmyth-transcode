@@ -12,7 +12,7 @@ LOG_FILE=/mnt/tv/log/transcode.log
 SHARED_DIR=/var/lib/mythtv/recordings_pretty
 TRANSCODE_DIR=/mnt/tv/transcoded
 WEB_TORRENT_DIR=/mnt/tv/torrents
-TORRENT_DIR=/mnt/tv/rtorrent
+RTORRENT_DIR=/mnt/tv/rtorrent
 TMP_DIR=/mnt/tv/tmp
 
 # --- transcode
