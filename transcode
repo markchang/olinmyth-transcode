@@ -12,13 +12,22 @@ LOG_FILE=/mnt/tv/log/transcode.log
 SHARED_DIR=/var/lib/mythtv/recordings_pretty
 TRANSCODE_DIR=/mnt/tv/transcoded
 WEB_TORRENT_DIR=/mnt/tv/torrents
-TORRENT_DIR=/mnt/tv/rtorrent
+RTORRENT_DIR=/mnt/tv/rtorrent
 TMP_DIR=/mnt/tv/tmp
 
 # --- transcode
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: transcoding ${FILE} " >> $LOG_FILE
 
 HandBrakeCLI -i "${SHARED_DIR}/${FILE}" -o "${TRANSCODE_DIR}/${NEWFILE}" -e x264 -q 20.0 -a 1 -E faac -B 160 -6 dpl2 -R 48 -D 0.0 -f mp4 -m -x ref=2:bframes=2:subme=6:mixed-refs=0:weightb=0:8x8dct=0:trellis=0 -Y 720  > /dev/null
+
+# check for handbrake failure
+if [ $? -ne 0 ]
+then
+  echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: handbrake failed on ${FILE}" >> $LOG_FILE
+  rm "${SHARED_DIR}/${FILE}"
+  echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: error " >> $LOG_FILE
+  exit 1
+fi
 
 # --- build torrent and seed
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: building torrent " >> $LOG_FILE
