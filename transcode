@@ -14,9 +14,12 @@ TRANSCODE_DIR=/mnt/tv/transcoded
 WEB_TORRENT_DIR=/mnt/tv/torrents
 RTORRENT_DIR=/mnt/tv/rtorrent
 TMP_DIR=/mnt/tv/tmp
+TWEET=/usr/local/bin/tweet.py
 
 # --- transcode
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: transcoding ${FILE} " >> $LOG_FILE
+
+${TWEET} "Transcoding ${FILE}"
 
 HandBrakeCLI -i "${SHARED_DIR}/${FILE}" -o "${TRANSCODE_DIR}/${NEWFILE}" -e x264 -q 20.0 -a 1 -E faac -B 160 -6 dpl2 -R 48 -D 0.0 -f mp4 -m -x ref=2:bframes=2:subme=6:mixed-refs=0:weightb=0:8x8dct=0:trellis=0 -Y 720  > /dev/null
 
@@ -26,6 +29,7 @@ then
   echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: handbrake failed on ${FILE}" >> $LOG_FILE
   rm "${SHARED_DIR}/${FILE}"
   echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: error " >> $LOG_FILE
+  ${TWEET} "Failed tcode ${FILE}"
   exit 1
 fi
 
@@ -38,4 +42,8 @@ buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}
 # --- finished
 rm "${SHARED_DIR}/${FILE}"
 echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: finished " >> $LOG_FILE
+
+
+# --- tweet done
+${TWEET} "Transcoded ${FILE}"
 
