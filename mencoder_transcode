@@ -1,0 +1,35 @@
+#!/bin/bash
+# mencoder_transcode
+# transcodes the specified file, with mencoder
+#    sometimes, handbrake segfaults on some of the bigger files
+#    right now, this is a manual patch
+#
+# parameter: FILENAME PRETTY_FILE_NAME
+###
+
+FILE=$1
+NEWFILE=$2
+LOG_FILE=/mnt/tv/log/transcode.log
+#SHARED_DIR=/var/lib/mythtv/recordings_pretty
+TRANSCODE_DIR=/mnt/tv/transcoded
+WEB_TORRENT_DIR=/mnt/tv/torrents
+RTORRENT_DIR=/mnt/tv/rtorrent
+TMP_DIR=/mnt/tv/tmp
+
+# --- transcode
+echo "P1 = ${1}"
+echo "P2 = ${2}"
+sleep 3
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: mencoder ${FILE} " >> $LOG_FILE
+
+mencoder "${FILE}" -o "${TRANSCODE_DIR}/${NEWFILE}"  -ovc x264 -oac mp3lame -vf scale=1280:720 -x264encopts ref=2:bframes=2:subme=6:mixed-refs=0:weightb=0:8x8dct=0:trellis=0:crf=20.0:subq=1
+
+# --- build torrent and seed
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: building torrent " >> $LOG_FILE
+
+buildtorrent -a http://tv.olin.edu:6969/announce -l 2097152 -q "${TRANSCODE_DIR}/${NEWFILE}" "${WEB_TORRENT_DIR}/${NEWFILE}.torrent"
+/usr/local/bin/rtorrent_fast_resume.pl ${TRANSCODE_DIR} < "${WEB_TORRENT_DIR}/${NEWFILE}.torrent" > "${RTORRENT_DIR}/${NEWFILE}.torrent"
+
+# --- finished
+echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: finished " >> $LOG_FILE
+
