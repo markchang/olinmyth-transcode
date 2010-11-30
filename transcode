@@ -46,5 +46,5 @@ echo "[`date "+%Y-%m-%Oe %H:%M:%S"`]: finished " >> $LOG_FILE
 
 
 # --- tweet done
-${TWEET_BITLY} "[TCODE_DONE] ${FILE}" "${NEWFILE}.torrent"
+${TWEET_BITLY} "[TC_DONE] ${FILE}" "${NEWFILE}.torrent"
 
